@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#f5f8fb" name="theme-color"/>
+  <meta content="Mi Salud es una aplicaci&oacute;n educativa para registrar y visualizar mediciones personales. Demo de desarrollo web de Soyfacuh." name="description"/>
+  <meta content="Soyfacuh" name="author"/>
+  <title>
+   Mi Salud | Panel de bienestar &middot; Soyfacuh
+  </title>
+  <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="style.css" rel="stylesheet"/>
+  <script defer="" src="script.js">
+  </script>
+ </head>
+ <body>
+  <!-- Íconos SVG locales: la aplicación no depende de servicios externos. -->
+  <svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="i-activity" viewBox="0 0 24 24">
+    <path d="M22 12h-4l-3 9L9 3l-3 9H2">
+    </path>
+   </symbol>
+   <symbol id="i-grid" viewBox="0 0 24 24">
+    <rect height="7" rx="2" width="7" x="3" y="3">
+    </rect>
+    <rect height="7" rx="2" width="7" x="14" y="3">
+    </rect>
+    <rect height="7" rx="2" width="7" x="3" y="14">
+    </rect>
+    <rect height="7" rx="2" width="7" x="14" y="14">
+    </rect>
+   </symbol>
+   <symbol id="i-plus" viewBox="0 0 24 24">
+    <path d="M12 5v14M5 12h14">
+    </path>
+   </symbol>
+   <symbol id="i-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9">
+    </circle>
+    <path d="M12 7v5l4 2">
+    </path>
+   </symbol>
+   <symbol id="i-shield" viewBox="0 0 24 24">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z">
+    </path>
+    <path d="m9 12 2 2 4-4">
+    </path>
+   </symbol>
+   <symbol id="i-heart" viewBox="0 0 24 24">
+    <path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 5.9l-1.1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.4a5.5 5.5 0 0 0 0-7.8Z">
+    </path>
+   </symbol>
+   <symbol id="i-thermometer" viewBox="0 0 24 24">
+    <path d="M14 14.8V5a4 4 0 0 0-8 0v9.8a6 6 0 1 0 8 0Z">
+    </path>
+    <path d="M10 10v9">
+    </path>
+   </symbol>
+   <symbol id="i-gauge" viewBox="0 0 24 24">
+    <path d="M5 17a9 9 0 1 1 14 0">
+    </path>
+    <path d="m12 13 4-5">
+    </path>
+    <circle cx="12" cy="13" r="1">
+    </circle>
+   </symbol>
+   <symbol id="i-droplet" viewBox="0 0 24 24">
+    <path d="M12 22a8 8 0 0 0 8-8c0-4-8-12-8-12S4 10 4 14a8 8 0 0 0 8 8Z">
+    </path>
+   </symbol>
+   <symbol id="i-chevron" viewBox="0 0 24 24">
+    <path d="m9 18 6-6-6-6">
+    </path>
+   </symbol>
+   <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M5 12h14m-6-6 6 6-6 6">
+    </path>
+   </symbol>
+   <symbol id="i-edit" viewBox="0 0 24 24">
+    <path d="M12 20h9M4 16l11-11a2 2 0 0 1 3 3L7 19l-4 1 1-4Z">
+    </path>
+   </symbol>
+   <symbol id="i-trash" viewBox="0 0 24 24">
+    <path d="M4 7h16M10 3h4m-8 4 1 14h10l1-14M10 11v6m4-6v6">
+    </path>
+   </symbol>
+   <symbol id="i-download" viewBox="0 0 24 24">
+    <path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4">
+    </path>
+   </symbol>
+   <symbol id="i-upload" viewBox="0 0 24 24">
+    <path d="M12 17V5m-5 5 5-5 5 5M4 17v4h16v-4">
+    </path>
+   </symbol>
+   <symbol id="i-sun" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="4">
+    </circle>
+    <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42">
+    </path>
+   </symbol>
+   <symbol id="i-moon" viewBox="0 0 24 24">
+    <path d="M20 15.3A9 9 0 0 1 8.7 4 9 9 0 1 0 20 15.3Z">
+    </path>
+   </symbol>
+   <symbol id="i-search" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="7">
+    </circle>
+    <path d="m20 20-4-4">
+    </path>
+   </symbol>
+   <symbol id="i-info" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10">
+    </circle>
+    <path d="M12 11v6m0-10h.01">
+    </path>
+   </symbol>
+   <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m5 12 4 4L19 6">
+    </path>
+   </symbol>
+   <symbol id="i-menu" viewBox="0 0 24 24">
+    <path d="M4 7h16M4 12h16M4 17h16">
+    </path>
+   </symbol>
+   <symbol id="i-printer" viewBox="0 0 24 24">
+    <path d="M6 9V3h12v6M6 18H4V9h16v9h-2M6 14h12v7H6z">
+    </path>
+   </symbol>
+  </svg>
+  <a class="skip-link" href="#contenido">
+   Saltar al contenido
+  </a>
+  <div class="app-shell">
+   <aside aria-label="Navegaci&oacute;n principal" class="sidebar">
+    <a aria-label="Mi Salud, ir a resumen" class="brand" href="#resumen">
+     <span class="brand-icon">
+      <svg aria-hidden="true" class="icon">
+       <use href="#i-activity">
+       </use>
+      </svg>
+     </span>
+     <span>
+      <strong>
+       mi
+       <span>
+        salud.
+       </span>
+      </strong>
+      <small>
+       ESPACIO PERSONAL
+      </small>
+     </span>
+    </a>
+    <div class="nav-title">
+     TU ESPACIO
+    </div>
+    <nav aria-label="Secciones" class="sidebar-nav">
+     <a class="nav-link active" href="#resumen">
+      <svg aria-hidden="true" class="icon">
+       <use href="#i-grid">
+       </use>
+      </svg>
+      <span>
+       Resumen
+      </span>
+     </a>
+     <a class="nav-link" href="#registrar">
+      <svg aria-hidden="true" class="icon">
+       <use href="#i-plus">
+       </use>
+      </svg>
+      <span>
+       Nueva medici&oacute;n
+      </span>
+     </a>
+     <a class="nav-link" href="#historial">
+      <svg aria-hidden="true" class="icon">
+       <use href="#i-clock">
+       </use>
+      </svg>
+      <span>
+       Historial
+      </span>
+     </a>
+     <a class="nav-link" href="#privacidad">
+      <svg aria-hidden="true" class="icon">
+       <use href="#i-shield">
+       </use>
+      </svg>
+      <span>
+       Privacidad
+      </span>
+     </a>
+    </nav>
+    <div class="sidebar-bottom">
+     <div class="local-note">
+      <span class="local-dot">
+      </span>
+      <div>
+       <strong>
+        Sin cuentas ni servidores
+       </strong>
+       <span>
+        Tus datos quedan en este navegador.
+       </span>
+      </div>
+     </div>
+     <a class="sidebar-credit" href="https://soyfacuh.com" rel="noopener noreferrer" target="_blank">
+      Un proyecto de
+      <strong>
+       Soyfacuh
+      </strong>
+      <svg aria-hidden="true" class="icon">
+       <use href="#i-arrow">
+       </use>
+      </svg>
+     </a>
+    </div>
+   </aside>
+   <div class="work-area" id="contenido">
+    <header class="topbar">
+     <div class="topbar-context">
+      <span class="eyebrow-dot">
+      </span>
+      PROYECTO EDUCATIVO
+      <span class="separator">
+       /
+      </span>
+      PANEL DE BIENESTAR
+     </div>
+     <div class="topbar-actions">
+      <span class="private-pill">
+       <svg aria-hidden="true" class="icon">
+        <use href="#i-shield">
+        </use>
+       </svg>
+       Almacenamiento local
+      </span>
+      <button aria-label="Activar modo oscuro" class="icon-button theme-switch" id="temaBoton" title="Cambiar tema" type="button">
+       <svg aria-hidden="true" class="icon">
+        <use href="#i-moon">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </header>
+    <main class="main-content">
+     <section aria-labelledby="tituloPrincipal" class="section overview" id="resumen">
+      <div class="hero">
+       <div class="hero-content">
+        <div class="hero-kicker">
+         <span class="pulse-dot">
+         </span>
+         TU SEGUIMIENTO, M&Aacute;S SIMPLE
+        </div>
+        <h1 id="tituloPrincipal">
+         Tu bienestar,
+         <br/>
+         <em>
+          en perspectiva.
+         </em>
+        </h1>
+        <p>
+         Un lugar simple para organizar tus mediciones, revisar tus registros y observar c&oacute;mo evolucionan a lo largo del tiempo.
+        </p>
+        <div class="hero-actions">
+         <a class="btn btn-primary" href="#registrar">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-plus">
+           </use>
+          </svg>
+          Nueva medici&oacute;n
+         </a>
+         <a class="btn btn-ghost" href="#historial">
+          Ver historial
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-arrow">
+           </use>
+          </svg>
+         </a>
+        </div>
+       </div>
+       <div aria-hidden="true" class="hero-art">
+        <div class="art-orbit orbit-one">
+        </div>
+        <div class="art-orbit orbit-two">
+        </div>
+        <div class="art-ring">
+         <svg fill="none" viewBox="0 0 120 75">
+          <path d="M0 39H29L42 18L58 57L75 32L86 39H120" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+          </path>
+         </svg>
+        </div>
+        <span class="art-spark spark-a">
+         ✦
+        </span>
+        <span class="art-spark spark-b">
+         ✳
+        </span>
+       </div>
+      </div>
+      <div class="section-heading metrics-heading">
+       <div>
+        <p class="overline">
+         VISTA GENERAL
+        </p>
+        <h2>
+         &Uacute;ltimas mediciones
+        </h2>
+       </div>
+       <span class="meta-text" id="resumenActualizado">
+        Sin registros todav&iacute;a
+       </span>
+      </div>
+      <div class="metrics-grid">
+       <article class="metric-card tone-coral">
+        <div class="metric-top">
+         <span class="metric-icon">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-heart">
+           </use>
+          </svg>
+         </span>
+         <span class="metric-type">
+          PULSO
+         </span>
+        </div>
+        <div class="metric-value">
+         <strong id="valorPulso">
+          &mdash;
+         </strong>
+         <span>
+          bpm
+         </span>
+        </div>
+        <p id="fechaPulso">
+         Sin datos registrados
+        </p>
+        <div aria-hidden="true" class="mini-line" id="sparkPulso">
+        </div>
+       </article>
+       <article class="metric-card tone-amber">
+        <div class="metric-top">
+         <span class="metric-icon">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-thermometer">
+           </use>
+          </svg>
+         </span>
+         <span class="metric-type">
+          TEMPERATURA
+         </span>
+        </div>
+        <div class="metric-value">
+         <strong id="valorTemperatura">
+          &mdash;
+         </strong>
+         <span>
+          &deg;C
+         </span>
+        </div>
+        <p id="fechaTemperatura">
+         Sin datos registrados
+        </p>
+        <div aria-hidden="true" class="mini-line" id="sparkTemperatura">
+        </div>
+       </article>
+       <article class="metric-card tone-blue">
+        <div class="metric-top">
+         <span class="metric-icon">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-gauge">
+           </use>
+          </svg>
+         </span>
+         <span class="metric-type">
+          PRESI&Oacute;N ARTERIAL
+         </span>
+        </div>
+        <div class="metric-value">
+         <strong id="valorPresion">
+          &mdash;
+         </strong>
+         <span>
+          mmHg
+         </span>
+        </div>
+        <p id="fechaPresion">
+         Sin datos registrados
+        </p>
+        <div aria-hidden="true" class="mini-line" id="sparkPresion">
+        </div>
+       </article>
+       <article class="metric-card tone-violet">
+        <div class="metric-top">
+         <span class="metric-icon">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-droplet">
+           </use>
+          </svg>
+         </span>
+         <span class="metric-type">
+          OX&Iacute;GENO EN SANGRE
+         </span>
+        </div>
+        <div class="metric-value">
+         <strong id="valorSaturacion">
+          &mdash;
+         </strong>
+         <span>
+          %
+         </span>
+        </div>
+        <p id="fechaSaturacion">
+         Sin datos registrados
+        </p>
+        <div aria-hidden="true" class="mini-line" id="sparkSaturacion">
+        </div>
+       </article>
+      </div>
+      <div class="insights-grid">
+       <article class="panel chart-panel">
+        <div class="panel-header">
+         <div>
+          <p class="overline">
+           VISUALIZACI&Oacute;N
+          </p>
+          <h2>
+           Evoluci&oacute;n de tus registros
+          </h2>
+          <p class="subtext">
+           Tendencias de los valores ingresados, sin interpretaci&oacute;n m&eacute;dica.
+          </p>
+         </div>
+        </div>
+        <div class="chart-controls">
+         <label class="sr-only" for="graficoMetrica">
+          Medici&oacute;n del gr&aacute;fico
+         </label>
+         <select id="graficoMetrica">
+          <option value="frecuenciaCardiaca">
+           Frecuencia card&iacute;aca
+          </option>
+          <option value="temperatura">
+           Temperatura
+          </option>
+          <option value="sistolica">
+           Presi&oacute;n sist&oacute;lica
+          </option>
+          <option value="diastolica">
+           Presi&oacute;n diast&oacute;lica
+          </option>
+          <option value="saturacion">
+           Saturaci&oacute;n de ox&iacute;geno
+          </option>
+         </select>
+         <label class="sr-only" for="graficoPeriodo">
+          Per&iacute;odo del gr&aacute;fico
+         </label>
+         <select id="graficoPeriodo">
+          <option value="7">
+           7 d&iacute;as
+          </option>
+          <option selected="" value="30">
+           30 d&iacute;as
+          </option>
+          <option value="all">
+           Todo
+          </option>
+         </select>
+        </div>
+        <div aria-label="Gr&aacute;fico sin registros" class="chart-container" id="contenedorGrafico" role="img">
+        </div>
+        <div class="chart-footer">
+         <span id="graficoLeyenda">
+          Seleccion&aacute; una m&eacute;trica para explorar tus registros.
+         </span>
+         <span id="graficoCantidad">
+          0 mediciones
+         </span>
+        </div>
+       </article>
+       <article class="panel quick-panel">
+        <div class="panel-header">
+         <div>
+          <p class="overline">
+           ACTIVIDAD RECIENTE
+          </p>
+          <h2>
+           Tus &uacute;ltimos registros
+          </h2>
+         </div>
+         <a class="text-link" href="#historial">
+          Ver todos
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-chevron">
+           </use>
+          </svg>
+         </a>
+        </div>
+        <div class="recent-list" id="listaRecientes">
+        </div>
+        <div class="quick-bottom">
+         <div class="quick-stat">
+          <strong id="totalMediciones">
+           0
+          </strong>
+          <span>
+           registros totales
+          </span>
+         </div>
+         <div class="quick-stat">
+          <strong id="diasRegistrados">
+           0
+          </strong>
+          <span>
+           d&iacute;as registrados
+          </span>
+         </div>
+        </div>
+       </article>
+      </div>
+     </section>
+     <section aria-labelledby="tituloRegistrar" class="section" id="registrar">
+      <div class="section-heading">
+       <div>
+        <p class="overline">
+         TUS DATOS
+        </p>
+        <h2 id="tituloRegistrar">
+         Registrar medici&oacute;n
+        </h2>
+        <p class="section-description">
+         Carg&aacute; los valores tal como aparecen en tu dispositivo de medici&oacute;n.
+        </p>
+       </div>
+       <span class="section-counter">
+        01 / REGISTRO
+       </span>
+      </div>
+      <div class="entry-grid">
+       <article class="panel form-panel">
+        <form id="formularioMedicion" novalidate="">
+         <div class="form-subhead">
+          <span class="step-count">
+           01
+          </span>
+          <div>
+           <h3>
+            Datos de la medici&oacute;n
+           </h3>
+           <p>
+            Los campos marcados con * son obligatorios.
+           </p>
+          </div>
+         </div>
+         <div class="form-grid">
+          <div class="field">
+           <label for="fecha">
+            Fecha
+            <span>
+             *
+            </span>
+           </label>
+           <input id="fecha" name="fecha" required="" type="date"/>
+          </div>
+          <div class="field">
+           <label for="hora">
+            Hora
+            <span>
+             *
+            </span>
+           </label>
+           <input id="hora" name="hora" required="" type="time"/>
+          </div>
+          <div class="field">
+           <label for="frecuenciaCardiaca">
+            Frecuencia card&iacute;aca
+            <span>
+             *
+            </span>
+           </label>
+           <div class="input-unit">
+            <input id="frecuenciaCardiaca" max="300" min="1" name="frecuenciaCardiaca" placeholder="Ej.: 72" required="" step="1" type="number"/>
+            <span>
+             bpm
+            </span>
+           </div>
+          </div>
+          <div class="field">
+           <label for="temperatura">
+            Temperatura
+            <span>
+             *
+            </span>
+           </label>
+           <div class="input-unit">
+            <input id="temperatura" max="45" min="30" name="temperatura" placeholder="Ej.: 36,5" required="" step="0.1" type="number"/>
+            <span>
+             &deg;C
+            </span>
+           </div>
+          </div>
+          <div class="field">
+           <label for="sistolica">
+            Presi&oacute;n sist&oacute;lica
+            <span>
+             *
+            </span>
+           </label>
+           <div class="input-unit">
+            <input id="sistolica" max="300" min="40" name="sistolica" placeholder="Ej.: 120" required="" step="1" type="number"/>
+            <span>
+             mmHg
+            </span>
+           </div>
+          </div>
+          <div class="field">
+           <label for="diastolica">
+            Presi&oacute;n diast&oacute;lica
+            <span>
+             *
+            </span>
+           </label>
+           <div class="input-unit">
+            <input id="diastolica" max="200" min="20" name="diastolica" placeholder="Ej.: 80" required="" step="1" type="number"/>
+            <span>
+             mmHg
+            </span>
+           </div>
+          </div>
+          <div class="field">
+           <label for="saturacion">
+            Saturaci&oacute;n de ox&iacute;geno
+            <span>
+             *
+            </span>
+           </label>
+           <div class="input-unit">
+            <input id="saturacion" max="100" min="0" name="saturacion" placeholder="Ej.: 98" required="" step="1" type="number"/>
+            <span>
+             %
+            </span>
+           </div>
+          </div>
+          <div class="field field-wide">
+           <label for="observaciones">
+            Observaciones
+            <span class="optional">
+             (opcional)
+            </span>
+           </label>
+           <textarea id="observaciones" maxlength="240" name="observaciones" placeholder="Ej.: Medici&oacute;n en reposo. M&aacute;ximo 240 caracteres." rows="3"></textarea>
+           <small id="contadorNotas">
+            0 / 240 caracteres
+           </small>
+          </div>
+         </div>
+         <p class="form-message" hidden="" id="mensajeFormulario" role="alert">
+         </p>
+         <div class="form-actions">
+          <button class="btn btn-primary" id="botonGuardar" type="submit">
+           <svg aria-hidden="true" class="icon">
+            <use href="#i-check">
+            </use>
+           </svg>
+           Guardar medici&oacute;n
+          </button>
+          <button class="btn btn-muted" hidden="" id="botonCancelar" type="button">
+           Cancelar edici&oacute;n
+          </button>
+         </div>
+        </form>
+       </article>
+       <aside class="help-panel">
+        <div class="help-symbol">
+         <svg aria-hidden="true" class="icon">
+          <use href="#i-info">
+          </use>
+         </svg>
+        </div>
+        <h3>
+         Un registro m&aacute;s claro empieza con buenos datos.
+        </h3>
+        <p>
+         Esta herramienta organiza la informaci&oacute;n que ingres&aacute;s; no mide signos vitales ni eval&uacute;a si los valores son normales.
+        </p>
+        <div class="help-divider">
+        </div>
+        <h4>
+         &iquest;Quer&eacute;s probar la demo?
+        </h4>
+        <p>
+         Pod&eacute;s agregar registros ficticios para conocer los gr&aacute;ficos y el historial. No se cargan autom&aacute;ticamente.
+        </p>
+        <button class="btn btn-outline" id="botonDemo" type="button">
+         Cargar datos de ejemplo
+         <svg aria-hidden="true" class="icon">
+          <use href="#i-arrow">
+          </use>
+         </svg>
+        </button>
+       </aside>
+      </div>
+     </section>
+     <section aria-labelledby="tituloHistorial" class="section" id="historial">
+      <div class="section-heading">
+       <div>
+        <p class="overline">
+         ORGANIZACI&Oacute;N
+        </p>
+        <h2 id="tituloHistorial">
+         Historial de mediciones
+        </h2>
+        <p class="section-description">
+         Busc&aacute;, edit&aacute; y descarg&aacute; tus registros cuando quieras.
+        </p>
+       </div>
+       <span class="section-counter">
+        02 / HISTORIAL
+       </span>
+      </div>
+      <article class="panel history-panel">
+       <div class="history-toolbar">
+        <div class="search-wrap">
+         <svg aria-hidden="true" class="icon">
+          <use href="#i-search">
+          </use>
+         </svg>
+         <label class="sr-only" for="buscarHistorial">
+          Buscar en historial
+         </label>
+         <input id="buscarHistorial" placeholder="Buscar por fecha, nota o valor..." type="search"/>
+        </div>
+        <div class="toolbar-controls">
+         <label class="sr-only" for="filtroPeriodo">
+          Filtrar por fecha
+         </label>
+         <select id="filtroPeriodo">
+          <option value="all">
+           Todas las fechas
+          </option>
+          <option value="7">
+           &Uacute;ltimos 7 d&iacute;as
+          </option>
+          <option value="30">
+           &Uacute;ltimos 30 d&iacute;as
+          </option>
+          <option value="90">
+           &Uacute;ltimos 90 d&iacute;as
+          </option>
+         </select>
+         <label class="sr-only" for="ordenHistorial">
+          Ordenar por fecha
+         </label>
+         <select id="ordenHistorial">
+          <option value="desc">
+           M&aacute;s recientes
+          </option>
+          <option value="asc">
+           M&aacute;s antiguas
+          </option>
+         </select>
+        </div>
+       </div>
+       <div class="history-actions">
+        <span aria-live="polite" class="meta-text" id="cantidadFiltrada">
+         0 registros
+        </span>
+        <div class="export-buttons">
+         <button class="text-button" id="botonCSV" type="button">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-download">
+           </use>
+          </svg>
+          CSV
+         </button>
+         <button class="text-button" id="botonJSON" type="button">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-download">
+           </use>
+          </svg>
+          Copia JSON
+         </button>
+         <button class="text-button" id="botonImportar" type="button">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-upload">
+           </use>
+          </svg>
+          Importar
+         </button>
+         <button class="text-button" id="botonImprimir" type="button">
+          <svg aria-hidden="true" class="icon">
+           <use href="#i-printer">
+           </use>
+          </svg>
+          Imprimir
+         </button>
+         <input accept=".json,application/json" aria-label="Elegir copia de seguridad JSON" class="sr-only" id="archivoImportar" type="file"/>
+        </div>
+       </div>
+       <div class="table-scroll">
+        <table aria-label="Historial de signos vitales">
+         <thead>
+          <tr>
+           <th>
+            Fecha y hora
+           </th>
+           <th>
+            Pulso
+           </th>
+           <th>
+            Temperatura
+           </th>
+           <th>
+            Presi&oacute;n
+           </th>
+           <th>
+            Saturaci&oacute;n
+           </th>
+           <th>
+            Notas
+           </th>
+           <th class="actions-th">
+            Acciones
+           </th>
+          </tr>
+         </thead>
+         <tbody id="cuerpoTablaHistorial">
+         </tbody>
+        </table>
+       </div>
+       <div class="history-mobile" id="historialMovil">
+       </div>
+       <div class="empty-state" hidden="" id="historialVacio">
+        <div class="empty-icon">
+         <svg aria-hidden="true" class="icon">
+          <use href="#i-clock">
+          </use>
+         </svg>
+        </div>
+        <h3 id="vacioTitulo">
+         Todav&iacute;a no hay mediciones
+        </h3>
+        <p id="vacioTexto">
+         Guard&aacute; tu primer registro para verlo ac&aacute;.
+        </p>
+        <a class="btn btn-outline" href="#registrar">
+         Agregar medici&oacute;n
+        </a>
+       </div>
+       <div class="history-bottom">
+        <span class="meta-text">
+         Se muestran hasta 10 resultados por p&aacute;gina.
+        </span>
+        <div class="pagination">
+         <button aria-label="P&aacute;gina anterior" class="page-btn" id="paginaAnterior" type="button">
+          &lsaquo;
+         </button>
+         <span id="paginaEstado">
+          P&aacute;gina 1 de 1
+         </span>
+         <button aria-label="P&aacute;gina siguiente" class="page-btn" id="paginaSiguiente" type="button">
+          &rsaquo;
+         </button>
+        </div>
+       </div>
+      </article>
+     </section>
+     <section aria-labelledby="tituloPrivacidad" class="section" id="privacidad">
+      <div class="section-heading">
+       <div>
+        <p class="overline">
+         TRANSPARENCIA
+        </p>
+        <h2 id="tituloPrivacidad">
+         Privacidad y uso responsable
+        </h2>
+       </div>
+       <span class="section-counter">
+        03 / INFORMACI&Oacute;N
+       </span>
+      </div>
+      <div class="privacy-grid">
+       <article class="privacy-card">
+        <span class="privacy-icon">
+         <svg aria-hidden="true" class="icon">
+          <use href="#i-shield">
+          </use>
+         </svg>
+        </span>
+        <h3>
+         Los datos se quedan en tu navegador
+        </h3>
+        <p>
+         Mi Salud usa almacenamiento local. No crea cuentas, no sincroniza dispositivos ni env&iacute;a informaci&oacute;n a servidores. Los datos no est&aacute;n cifrados: evit&aacute; ingresar informaci&oacute;n sensible en dispositivos compartidos.
+        </p>
+       </article>
+       <article class="privacy-card">
+        <span class="privacy-icon">
+         <svg aria-hidden="true" class="icon">
+          <use href="#i-info">
+          </use>
+         </svg>
+        </span>
+        <h3>
+         Una herramienta educativa
+        </h3>
+        <p>
+         No es un dispositivo m&eacute;dico ni sirve para diagn&oacute;stico, tratamiento, alertas o emergencias. Si ten&eacute;s s&iacute;ntomas o dudas sobre una medici&oacute;n, consult&aacute; a profesionales de la salud.
+        </p>
+       </article>
+      </div>
+      <div class="danger-zone">
+       <div>
+        <h3>
+         Administrar tus datos
+        </h3>
+        <p>
+         Pod&eacute;s descargar una copia de seguridad o borrar el historial del navegador actual. El borrado no se puede deshacer.
+        </p>
+       </div>
+       <button class="btn btn-danger" id="botonEliminarTodo" type="button">
+        <svg aria-hidden="true" class="icon">
+         <use href="#i-trash">
+         </use>
+        </svg>
+        Borrar todo
+       </button>
+      </div>
+     </section>
+    </main>
+    <footer class="site-footer">
+     <span>
+      &copy;
+      <span id="anioActual">
+      </span>
+      Mi Salud &middot; Proyecto educativo de
+      <a href="https://soyfacuh.com" rel="noopener noreferrer" target="_blank">
+       Soyfacuh
+      </a>
+     </span>
+     <span>
+      Dise&ntilde;o y desarrollo web &middot;
+      <a href="https://soyfacuh.com" rel="noopener noreferrer" target="_blank">
+       soyfacuh.com
+       <svg aria-hidden="true" class="icon">
+        <use href="#i-arrow">
+        </use>
+       </svg>
+      </a>
+     </span>
+    </footer>
+   </div>
+  </div>
+  <a aria-label="Sitio desarrollado por Soyfacuh" class="floating-credit" href="https://soyfacuh.com" rel="noopener noreferrer" target="_blank">
+   Hecho por
+   <strong>
+    soyfacuh.com
+   </strong>
+   <svg aria-hidden="true" class="icon">
+    <use href="#i-arrow">
+    </use>
+   </svg>
+  </a>
+  <dialog aria-describedby="dialogTexto" aria-labelledby="dialogTitulo" class="confirm-dialog" id="dialogConfirmacion">
+   <div class="dialog-inner">
+    <div class="dialog-symbol">
+     <svg aria-hidden="true" class="icon">
+      <use href="#i-info">
+      </use>
+     </svg>
+    </div>
+    <h2 id="dialogTitulo">
+     Confirmar acci&oacute;n
+    </h2>
+    <p id="dialogTexto">
+    </p>
+    <div class="dialog-actions">
+     <button class="btn btn-muted" id="dialogCancelar" type="button">
+      Cancelar
+     </button>
+     <button class="btn btn-danger" id="dialogAceptar" type="button">
+      Confirmar
+     </button>
+    </div>
+   </div>
+  </dialog>
+  <div aria-live="polite" class="toast" id="toast" role="status">
+  </div>
+ </body>
+</html>
+
